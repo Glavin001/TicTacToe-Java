@@ -16,6 +16,55 @@ public class Engine implements MoveObserver {
 		players = new ArrayList<Player>();
 	}
 	
+	/**
+	 * Starts game. Initializes a new Board.
+	 * @throws Exception InvalidNumberOfPlayers
+	 */
+	public void startGame() throws Exception 
+	{
+		Board gameBoard = new Board();
+		startGame(gameBoard);
+	}
+
+	/**
+	 * Starts game, using gameBoard.
+	 * @param gameBoard
+	 * @throws Exception InvalidNumberOfPlayers
+	 */
+	public void startGame(Board gameBoard) throws Exception 
+	{
+		// Use gameBoard
+		board = gameBoard;
+				
+		// Verify that we have 2 players.
+		if (players.size() == 2) {
+			// GOOD: Exactly 2 players.
+			System.out.println("Starting Game!");
+		} else {
+			// BAD
+			throw new Exception("Invalid number of players. Not enough or too many players. There are currently "+players.size()+" players.");
+		}
+		
+		// Set current player
+		currentPlayer = players.get(0);
+		
+		// Prep Players
+		currentPlayer.startGame(gameBoard, this);
+		getNextPlayer(currentPlayer).startGame(gameBoard, this);
+		
+		// 
+		promptPlayerForMove(currentPlayer);
+	}
+	
+	/**
+	 * 
+	 */
+	public void endGame()
+	{
+		currentPlayer = null;
+	}
+
+	
 	public Board getBoard() 
 	{
 		return board;
@@ -231,22 +280,7 @@ public class Engine implements MoveObserver {
 		// Select next player
 		currentPlayer = getNextPlayer(currentPlayer);
 	}
-	
-	/**
-	 * Starts game. Initializes a new Board.
-	 * @throws Exception InvalidNumberOfPlayers
-	 */
-	public void startGame() throws Exception 
-	{
-		Board gameBoard = new Board();
-		startGame(gameBoard);
-	}
-	
-	public void endGame()
-	{
-		currentPlayer = null;
-	}
-	
+		
 	/**
 	 * Ask the next current player to make their move.
 	 * @param player
@@ -262,30 +296,7 @@ public class Engine implements MoveObserver {
 		};
 		new Thread(myRunnable).start();//Call it when you need to run the function
 	}
-	
-	/**
-	 * Starts game, using gameBoard.
-	 * @param gameBoard
-	 * @throws Exception InvalidNumberOfPlayers
-	 */
-	public void startGame(Board gameBoard) throws Exception 
-	{
-		// Use gameBoard
-		board = gameBoard;
-		
-		// Verify that we have 2 players.
-		if (players.size() == 2) {
-			// GOOD: Exactly 2 players.
-			System.out.println("Starting Game!");
-		} else {
-			// BAD
-			throw new Exception("Invalid number of players. Not enough or too many players. There are currently "+players.size()+" players.");
-		}
-		
-		// Set current player
-		currentPlayer = players.get(0);
-		promptPlayerForMove(currentPlayer);
-	}
+
 	
 	private int getIndexOfPlayer(Player player) 
 	{

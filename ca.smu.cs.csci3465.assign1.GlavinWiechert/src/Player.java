@@ -30,6 +30,11 @@ public abstract class Player implements EngineObserver {
 		}
 	}
 	
+	public void startGame(Board board, Engine engine)
+	{
+		printBoard(board, engine);
+	}
+
 	@Override
 	public void makeMove(Board board, Engine engine) {
 		System.out.println("=================");

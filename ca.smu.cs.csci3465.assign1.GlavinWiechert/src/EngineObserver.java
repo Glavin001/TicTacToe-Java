@@ -29,6 +29,13 @@ public interface EngineObserver {
 	void drawGame(Board board, Engine engine);
 	
 	/**
+	 * Notify the Player that a game has started.
+	 * @param board
+	 * @param engine
+	 */
+	void startGame(Board board, Engine engine);
+	
+	/**
 	 * Notify the Player with a message. This may be an error message.
 	 * @param message
 	 */

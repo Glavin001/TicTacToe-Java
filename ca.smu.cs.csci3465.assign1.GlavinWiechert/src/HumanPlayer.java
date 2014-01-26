@@ -1,4 +1,5 @@
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,8 +9,8 @@ import javax.swing.*;
 public class HumanPlayer extends Player implements ActionListener {
 	
 	private JButton[][] buttons;
-	
 	Engine currentEngine;
+	JLabel message;
 	
 	public HumanPlayer() 
     {
@@ -24,33 +25,38 @@ public class HumanPlayer extends Player implements ActionListener {
      */
     private void createAndShowGUI() 
     {
-        //Create and set up the window.
+        // Create and set up the window.
         JFrame frame = new JFrame("Human Player GUI");
-        frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container contentPane = frame.getContentPane();
+        contentPane.setLayout(new FlowLayout());
         
-        /*
-        //Add the ubiquitous "Hello World" label.
-        JLabel label = new JLabel("Hello World");
-        contentPane.add(label);
-         */
+        // Add the message Label.
+        message = new JLabel("Wait for your turn.");
+        contentPane.add(message);
         
-        //
+        // Add the Restart button.
+        JButton restart = new JButton("Restart");
+        restart.addActionListener(this);
+        restart.setActionCommand("restart");
+        contentPane.add(restart);
+        
+        // Add TicTacToe button grid.
         GridLayout boardLayout = new GridLayout(3,3);
         JPanel panel = new JPanel();
         panel.setLayout(boardLayout);
         addButtons(panel);
         contentPane.add(panel);
                 
-        //Display the window.
-        contentPane.validate();
+        // Display the window.
         frame.pack();
+        frame.setSize(250, 200);
+        frame.setResizable(true);
         frame.setVisible(true);
     }
     
     
-    public void addButtons(JPanel panel) {
+    private void addButtons(JPanel panel) {
     	buttons = new JButton[3][3];
     	for (int k = 0; k < 3; k++) {
 	      for (int j = 0; j < 3; j++) {
@@ -61,6 +67,26 @@ public class HumanPlayer extends Player implements ActionListener {
     	   }
     	}
 	}
+    
+    private void disableButtons()
+    {
+    	for (int k = 0; k < 3; k++) {
+  	      for (int j = 0; j < 3; j++) {
+  	    	  JButton button = buttons[k][j];
+  	    	  button.setEnabled(false);
+  	      }
+    	}
+    }
+    
+    private void enableButtons()
+    {
+    	for (int k = 0; k < 3; k++) {
+  	      for (int j = 0; j < 3; j++) {
+  	    	  JButton button = buttons[k][j];
+  	    	  button.setEnabled(true);
+  	      }
+    	}
+    }
 
     private void displayBoard(Board board, Engine engine) 
 	{
@@ -79,12 +105,28 @@ public class HumanPlayer extends Player implements ActionListener {
 		}
 	}
     
+    public void startGame(Board board, Engine engine)
+	{
+    	currentEngine = engine;
+		displayBoard(board, engine);
+		disableButtons(); // Wait for your turn.
+		displayMessage("Wait for your turn.");
+	}
+
+    
+    private void displayMessage(String msg) 
+    {
+    	message.setText(msg);
+    }
+    
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.println("ActionPerformed");
+		//System.out.println("ActionPerformed");
 		if (currentEngine == null)
 		{
 			System.out.println("Player has no Engine.");
+			//displayMessage("Player has no Engine.");
+			displayMessage("Please wait for your turn.");
 			return;
 		}
 		String command = event.getActionCommand();
@@ -102,9 +144,13 @@ public class HumanPlayer extends Player implements ActionListener {
 						if (validMove)
 						{
 							System.out.println("Valid move! ["+pos[0]+","+pos[1]+"]");
+							//displayMessage("Valid move.");
+							//displayMessage("Wait for your turn.");
+							disableButtons();
 						} else 
 						{
-							System.out.println("Invalid move! ["+pos[0]+","+pos[1]+"]");
+							System.out.println("Cannnot make that move! ["+pos[0]+","+pos[1]+"]");
+							displayMessage("Cannnot make that move.");
 						}
 						displayBoard(currentEngine.getBoard(), currentEngine);
 						return;
@@ -112,29 +158,27 @@ public class HumanPlayer extends Player implements ActionListener {
 				}
 			}
 		}
+		else if (command == "restart")
+		{
+			try {
+				currentEngine.startGame();
+				displayBoard(currentEngine.getBoard(), currentEngine);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
 	}
 	
 	@Override
 	public void makeMove(Board board, Engine engine) {
+		enableButtons();
 		System.out.println("=================");
-		
 		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Make Move:");
-		
 		displayBoard(board, engine);
-		
+		displayMessage("Make your move!");
 		currentEngine = engine;
-		
-		/*
-		int[] pos = randomPosition();
-		boolean validMove = engine.move(this, pos);
-		if (validMove)
-		{
-			System.out.println("Valid move! ["+pos[0]+","+pos[1]+"]");
-		} else 
-		{
-			System.out.println("Invalid move! ["+pos[0]+","+pos[1]+"]");
-		}
-		*/
 	}
 	
 	@Override
@@ -142,6 +186,7 @@ public class HumanPlayer extends Player implements ActionListener {
 		// 
 		System.out.println("=================");
 		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Lost Game");
+		displayMessage("You lost.");
 		displayBoard(board, engine);
 	}
 
@@ -150,6 +195,7 @@ public class HumanPlayer extends Player implements ActionListener {
 		// 
 		System.out.println("=================");
 		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Won Game");
+		displayMessage("You won!");
 		displayBoard(board, engine);
 	}
 
@@ -158,6 +204,7 @@ public class HumanPlayer extends Player implements ActionListener {
 		// 
 		System.out.println("=================");
 		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Draw Game");
+		displayMessage("Game was a Draw");
 		displayBoard(board, engine);
 	}
 	
