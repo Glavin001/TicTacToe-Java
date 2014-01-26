@@ -6,7 +6,7 @@ public abstract class Player implements EngineObserver {
 		return min + (int)(Math.random() * ((max - min) + 1));
 	}
 	
-	private int[] randomPosition()
+	protected int[] randomPosition()
 	{
 		int[] pos = { 
 				randomPositionPart(0,2),

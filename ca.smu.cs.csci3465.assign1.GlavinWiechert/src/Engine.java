@@ -180,7 +180,14 @@ public class Engine implements MoveObserver {
 		// Check if player is the currentPlayer
 		if (player != currentPlayer) 
 		{
-			player.message("Not your turn!");
+			if (currentPlayer == null)
+			{
+				player.message("Game Over!");
+			} 
+			else 
+			{
+				player.message("Not your turn!");	
+			}
 			return false;
 		}
 		// Make the move
@@ -191,6 +198,7 @@ public class Engine implements MoveObserver {
 		if (winner != null) {
 			winner.wonGame(board, this);
 			loser.lostGame(board, this);
+			endGame();
 			return validMove;
 		}
 		// Check if the board is full
@@ -200,6 +208,7 @@ public class Engine implements MoveObserver {
 			System.out.println("Draw");
 			currentPlayer.drawGame(board, this);
 			getNextPlayer(currentPlayer).drawGame(board, this);
+			endGame();
 			return validMove;
 		}
 		// Check if player's move was successful.
@@ -231,6 +240,11 @@ public class Engine implements MoveObserver {
 	{
 		Board gameBoard = new Board();
 		startGame(gameBoard);
+	}
+	
+	public void endGame()
+	{
+		currentPlayer = null;
 	}
 	
 	/**
