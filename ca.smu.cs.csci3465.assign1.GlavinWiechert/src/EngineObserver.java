@@ -22,6 +22,13 @@ public interface EngineObserver {
 	void wonGame(Board board, Engine engine);
 	
 	/**
+	 * Notifiy the Player that it was a draw.
+	 * @param board
+	 * @param engine
+	 */
+	void drawGame(Board board, Engine engine);
+	
+	/**
 	 * Notify the Player with a message. This may be an error message.
 	 * @param message
 	 */

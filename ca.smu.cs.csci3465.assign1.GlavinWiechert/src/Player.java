@@ -15,24 +15,16 @@ public abstract class Player implements EngineObserver {
 		return pos;
 	}
 	
-	private void printBoard(Board board) 
+	private void printBoard(Board board, Engine engine) 
 	{
-		System.out.println("=================");
-		System.out.println("Current Board:");
+		//System.out.println("Current Board:");
 		for (int x=0; x<3; x++)
 		{
 			for (int y=0; y<3; y++) 
 			{
 				int[] pos = {x,y};
 				Player curr = board.getPlayerAtPosition(pos);
-				if (curr == null) 
-				{
-					System.out.print(" ");					
-				} else if ( curr == this) {
-					System.out.print("x");
-				} else {
-					System.out.print("o");		
-				}
+				System.out.print(engine.getLetterForPlayer(curr));
 			}
 			System.out.println("");
 		}
@@ -40,10 +32,12 @@ public abstract class Player implements EngineObserver {
 	
 	@Override
 	public void makeMove(Board board, Engine engine) {
+		System.out.println("=================");
 		
-		printBoard(board);
+		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Make Move:");
 		
-		System.out.println("Make Move");
+		printBoard(board, engine);
+
 		
 		int[] pos = randomPosition();
 		boolean validMove = engine.move(this, pos);
@@ -58,16 +52,28 @@ public abstract class Player implements EngineObserver {
 
 	@Override
 	public void lostGame(Board board, Engine engine) {
-		// TODO Auto-generated method stub
-		System.out.println("Lost game.");
+		// 
+		System.out.println("=================");
+		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Lost Game");
+		printBoard(board, engine);
 	}
 
 	@Override
 	public void wonGame(Board board, Engine engine) {
-		// TODO Auto-generated method stub
-		System.out.println("Won game!");
+		// 
+		System.out.println("=================");
+		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Won Game");
+		printBoard(board, engine);
 	}
 
+	@Override
+	public void drawGame(Board board, Engine engine) {
+		// 
+		System.out.println("=================");
+		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Draw Game");
+		printBoard(board, engine);
+	}
+	
 	@Override
 	public void message(String message) {
 		System.out.println(message);

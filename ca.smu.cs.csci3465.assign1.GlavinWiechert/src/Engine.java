@@ -20,20 +20,125 @@ public class Engine implements MoveObserver {
 	{
 		return board;
 	}
-
-	public Player getCurrentPlayer() 
-	{
-		return null;
-	}
 	
-	public void play(int[] position) 
+	public Player getLoser() 
 	{
-		
+		Player winner = getWinner();
+		Player loser = getNextPlayer(winner);
+		return loser;
 	}
 	
 	public Player getWinner() 
 	{
+		// Check horizontal rows
+		for (int y=0; y<3; y++)
+		{
+			// Horizontal row: y
+			if ( // Check if every player in this row is the same.
+					(
+					board.getPlayerAtPosition(new int[]{0, y})
+					== board.getPlayerAtPosition(new int[]{1, y})
+					)
+					&&
+					(
+					board.getPlayerAtPosition(new int[]{1, y})
+					== board.getPlayerAtPosition(new int[]{2, y})
+					)
+					)
+			{
+				// The same.
+				return board.getPlayerAtPosition(new int[]{0, y});
+			} else {
+				// Not the same.
+			}
+		}
+		// Check vertical columns
+		for (int x=0; x<3; x++)
+		{
+			// Vertical column: x
+			if ( // Check if every player in this column is the same.
+					(
+					board.getPlayerAtPosition(new int[]{x, 0})
+					== board.getPlayerAtPosition(new int[]{x, 1})
+					)
+					&&
+					(
+					board.getPlayerAtPosition(new int[]{x, 1})
+					== board.getPlayerAtPosition(new int[]{x, 2})
+					)
+					)
+			{
+				// The same.
+				return board.getPlayerAtPosition(new int[]{x, 0});
+			} else {
+				// Not the same.
+			}
+		}	
+		// Check diagonal
+		if ( // Check if every player in this diagonal is the same.
+				/**
+				 * X__
+				 * _X_
+				 * __X
+				 */
+				(
+				board.getPlayerAtPosition(new int[]{0, 0})
+				== board.getPlayerAtPosition(new int[]{1, 1})
+				)
+				&&
+				(
+				board.getPlayerAtPosition(new int[]{1, 1})
+				== board.getPlayerAtPosition(new int[]{2, 2})
+				)
+				)
+		{
+			// The same.
+			return board.getPlayerAtPosition(new int[]{0, 0});
+		} else {
+			// Not the same.
+		}
+		if ( // Check if every player in this diagonal is the same.
+				/**
+				 * __X
+				 * _X_
+				 * X__
+				 */
+				(
+				board.getPlayerAtPosition(new int[]{2, 0})
+				== board.getPlayerAtPosition(new int[]{1, 1})
+				)
+				&&
+				(
+				board.getPlayerAtPosition(new int[]{1, 1})
+				== board.getPlayerAtPosition(new int[]{0, 2})
+				)
+				)
+		{
+			// The same.
+			return board.getPlayerAtPosition(new int[]{2, 0});
+		} else {
+			// Not the same.
+		}
+		
+		// No winners found.
 		return null;
+	}
+	
+	public char getLetterForPlayer(Player player)
+	{
+		int idx = getIndexOfPlayer(player);
+		if (idx == -1)
+		{
+			return ' ';
+		}
+		else if (idx == 0)
+		{
+			return 'x';
+		} 
+		else
+		{
+			return 'o';
+		}
 	}
 	
 	/**
@@ -80,27 +185,42 @@ public class Engine implements MoveObserver {
 		}
 		// Make the move
 		boolean validMove = board.move(player, position);
+		// Check if there are any winners
+		Player winner = getWinner();
+		Player loser = getLoser();
+		if (winner != null) {
+			winner.wonGame(board, this);
+			loser.lostGame(board, this);
+			return validMove;
+		}
+		// Check if the board is full
+		else if (board.isFull())
+		{
+			// Game over
+			System.out.println("Draw");
+			currentPlayer.drawGame(board, this);
+			getNextPlayer(currentPlayer).drawGame(board, this);
+			return validMove;
+		}
 		// Check if player's move was successful.
 		if (validMove) 
 		{
 			// GOOD: Player's move was valid. Onto the next player.
-			// Select next player
-			currentPlayer = getNextPlayer();
-		}
-		// Check if there are any winners
-		Player winner = getWinner();
-		Player loser = null;
-		// Check if the board is full
-		if (board.isFull())
-		{
-			// Game over
-			System.out.println("Game Over.");
-			return validMove;
+			switchPlayer();
 		}
 		// Ask the next current player to make their move
 		promptPlayerForMove(currentPlayer);
 		// Return
 		return validMove;
+	}
+	
+	/**
+	 * Switch to the next player.
+	 */
+	private void switchPlayer()
+	{
+		// Select next player
+		currentPlayer = getNextPlayer(currentPlayer);
 	}
 	
 	/**
@@ -151,7 +271,6 @@ public class Engine implements MoveObserver {
 		// Set current player
 		currentPlayer = players.get(0);
 		promptPlayerForMove(currentPlayer);
-		
 	}
 	
 	private int getIndexOfPlayer(Player player) 
@@ -160,9 +279,9 @@ public class Engine implements MoveObserver {
 		return idx;
 	}
 	
-	private int getNextPlayerIndex() 
+	private int getNextPlayerIndex(Player player) 
 	{
-		int idx = getIndexOfPlayer(currentPlayer);
+		int idx = getIndexOfPlayer(player);
 		idx++;
 		if (idx >= players.size()) 
 		{
@@ -171,9 +290,9 @@ public class Engine implements MoveObserver {
 		return idx;
 	}
 	
-	private Player getNextPlayer() 
+	private Player getNextPlayer(Player player) 
 	{
-		int nextIndex = getNextPlayerIndex(); 
+		int nextIndex = getNextPlayerIndex(player); 
 		if (nextIndex > -1)
 		{
 			Player next = players.get(nextIndex);
