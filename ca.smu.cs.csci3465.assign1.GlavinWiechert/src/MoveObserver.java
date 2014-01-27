@@ -7,13 +7,13 @@
  */
 
 public interface MoveObserver {
-	
-	/**
-	 * Player makes a move.
-	 * @param player Player who is making the move.
-	 * @param position Position of the move.
-	 * @return Move was valid (successful).
-	 */
-	boolean move(Player player, int[] position);
-	
+    
+    /**
+     * Player makes a move.
+     * @param player Player who is making the move.
+     * @param position Position of the move.
+     * @return Move was valid (successful).
+     */
+    boolean move(Player player, int[] position);
+    
 }
