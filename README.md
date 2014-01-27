@@ -1,5 +1,6 @@
 TicTacToe-Java
 ==============
+[![Build Status](https://travis-ci.org/Glavin001/TicTacToe-Java.png?branch=master)](https://travis-ci.org/Glavin001/TicTacToe-Java)
 
 > Tic Tac Toe in Java. For CSCI 3465 Object Oriented Programming course at SMU.
 
