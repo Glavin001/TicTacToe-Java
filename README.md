@@ -4,9 +4,9 @@ TicTacToe-Java
 
 > Tic Tac Toe in Java. For CSCI 3465 Object Oriented Programming course at SMU.
 
-See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign1.html
+### For Grading Assignment
 
-### For Grading 
+See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign1.html
 
 #### Two versions of Tic Tac Toe
 - [&#x2713;] One version that runs from the command line
@@ -24,6 +24,31 @@ See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign1.html
 
 #### Bonus 
 - [&#x2717;] Ideally, the computer will be able to learn from losing scenarios and not make a move leading it to what it knows is a losing scenario.
+
+> The above suggested technique for building an AI is too unsatisfactory and unsettlingly inefficient.
+
+-----
+
+## Features
+
+- Object-Oriented Design with an easily extendable `Player` class to add functionality to the game.
+- Currently supported `Player`s: `GUIPlayer` (Human), `CommandLinePlayer` (Human), `RandomPlayer` (Computer), `AIPlayer` (Computer).
+
+> **TODO**: Create `Player` that uses Sockets to communicate over the network. 
+This would require, of course, a local `SocketServerPlayer` on the same machine as the `Engine` and a `SocketClientPlayer` on any machine that can connect to `SocketServerPlayer` over the network.
+
+
+## Creating Your Own Player
+
+Extend the `Player` class and implement at least the required `Player` methods, such as from the  [EngineObserver](http://glavin001.github.io/TicTacToe-Java/doc/EngineObserver.html).
+
+## Documentation
+See http://glavin001.github.io/TicTacToe-Java/doc/package-summary.html
+
+## Known Issues
+- Game will crash if `CommandLinePlayer` has `Scanner` currently waiting for input when game is restarted.
+- `CommandLinePlayer` cannot restart game. This is because the `CommandLinePlayer`'s `Scanner` would then be waiting for input (`Press [Enter] to restart game`) and crash if another player restarted the game before input was received (See issue above).
+
 
 ## Installation / Building
 
@@ -68,25 +93,3 @@ engine.addPlayer(computer1); // Second Player, 'O'
 // Start the game!
 engine.startGame();
 ```
-
-## Features
-
-- Object-Oriented Design with an easily extendable `Player` class to add functionality to the game.
-- Currently supported `Player`s: `GUIPlayer` (Human), `CommandLinePlayer` (Human), `RandomPlayer` (Computer), `AIPlayer` (Computer).
-
-> **TODO**: Create `Player` that uses Sockets to communicate over the network. 
-This would require, of course, a local `SocketServerPlayer` on the same machine as the `Engine` and a `SocketClientPlayer` on any machine that can connect to `SocketServerPlayer` over the network.
-
-
-## Creating Your Own Player
-
-Extend the `Player` class and implement at least the required `Player` methods, such as from the  [EngineObserver](http://glavin001.github.io/TicTacToe-Java/doc/EngineObserver.html).
-
-
-## Documentation
-See http://glavin001.github.io/TicTacToe-Java/doc/package-summary.html
-
-## Known Issues
-- Game will crash if `CommandLinePlayer` has `Scanner` currently waiting for input when game is restarted.
-- `CommandLinePlayer` cannot restart game. This is because the `CommandLinePlayer`'s `Scanner` would then be waiting for input (`Press [Enter] to restart game`) and crash if another player restarted the game before input was received (See issue above).
-
