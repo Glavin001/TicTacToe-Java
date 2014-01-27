@@ -6,6 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+/**
+ * @author Glavin Wiechert
+*/
+
+/**
+ * GUI for human players.
+ */
 public class GUIPlayer extends Player implements ActionListener {
 	
 	private JButton[][] buttons;

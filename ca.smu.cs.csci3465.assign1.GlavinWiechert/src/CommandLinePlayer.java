@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+/**
+ * @author Glavin Wiechert
+*/
+
+/**
+ * Command line interface for human players.
+ */
 public class CommandLinePlayer extends Player {
 
 	

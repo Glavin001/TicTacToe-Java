@@ -1,9 +1,16 @@
+/**
+ * @author Glavin Wiechert
+*/
 
+/**
+ * Main application that creates the Tic-Tac-Toe game.
+ */
 public class App {
 
 	/**
-	 * @param args
-	 * @throws Exception 
+	 * Create the game!
+	 * @param args Command line arguments for the game (not currently being used).
+	 * @throws Exception Catch all exceptions.
 	 */
 	public static void main(String[] args) throws Exception {
 		

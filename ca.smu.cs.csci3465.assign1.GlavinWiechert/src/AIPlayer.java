@@ -1,4 +1,10 @@
+/**
+ * @author Glavin Wiechert
+ */
 
+/**
+ * More sophisticated AI (computer) player.
+ */
 public class AIPlayer extends RandomPlayer {
 
 	@Override

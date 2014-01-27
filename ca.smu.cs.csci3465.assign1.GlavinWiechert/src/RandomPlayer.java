@@ -1,4 +1,10 @@
+/**
+ * @author Glavin Wiechert
+*/
 
+/**
+ * Primitive AI bot (computer) that plays with random positions.
+ */
 public class RandomPlayer extends Player {
 	
 	private int randomPositionPart(int min, int max)

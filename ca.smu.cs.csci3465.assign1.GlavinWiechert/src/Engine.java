@@ -1,12 +1,11 @@
 import java.util.ArrayList;
 
 /**
- * @author glavin
- *
- */
+ * @author Glavin Wiechert
+*/
+
 /**
- * @author glavin
- *
+ * This is the main class that handles the logic of the Tic-Tac-Toe game.
  */
 /**
  * @author glavin
@@ -23,8 +22,9 @@ public class Engine implements MoveObserver {
 	private Board board;
 	private Player currentPlayer;
 	
-	/*
-	 * Methods
+	/**
+	 * Constructor.
+	 * Initializes the ArrayList of players.
 	 */
 	public Engine() {
 		players = new ArrayList<Player>();
@@ -42,7 +42,7 @@ public class Engine implements MoveObserver {
 
 	/**
 	 * Starts game, using gameBoard.
-	 * @param gameBoard
+	 * @param gameBoard The game Board.
 	 * @throws Exception InvalidNumberOfPlayers
 	 */
 	public void startGame(Board gameBoard) throws Exception 
@@ -71,7 +71,7 @@ public class Engine implements MoveObserver {
 	}
 	
 	/**
-	 * 
+	 * End the current game and disable further moves by players.
 	 */
 	public void endGame()
 	{
@@ -203,6 +203,12 @@ public class Engine implements MoveObserver {
 		return null;
 	}
 	
+	
+	/**
+	 * Get the letter being used on the Board for the player.
+	 * @param player The player to retrieve the letter for.
+	 * @return The letter for the player.
+	 */
 	public char getLetterForPlayer(Player player)
 	{
 		int idx = getIndexOfPlayer(player);
@@ -221,9 +227,9 @@ public class Engine implements MoveObserver {
 	}
 	
 	/**
-	 * 
+	 * Add a new player to the game.
 	 * @param newPlayer
-	 * @return If successfully added newPlayer.
+	 * @return True if successfully added newPlayer. Will return false if player already added.
 	 */
 	public boolean addPlayer(Player newPlayer) 
 	{
@@ -237,9 +243,9 @@ public class Engine implements MoveObserver {
 	}
 	
 	/**
-	 * 
-	 * @param oldPlayer
-	 * @return If successfully removed oldPlayer.
+	 * Remove player from game.
+	 * @param oldPlayer Player to be removed.
+	 * @return True if successfully removed oldPlayer. Will return false if player was not in game.
 	 */
 	public boolean removePlayer(Player oldPlayer) 
 	{
