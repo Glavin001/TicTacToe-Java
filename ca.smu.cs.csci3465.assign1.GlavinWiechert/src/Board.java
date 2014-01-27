@@ -23,12 +23,33 @@ public class Board
 	 */
 	public Player getPlayerAtPosition(int[] position) 
 	{
-		return board[position[0]][position[1]];
+		if (
+				position[0] < board.length 
+				&& position[1] < board[position[0]].length
+				) 
+		{
+			return board[position[0]][position[1]];
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
-	private void setPlayerAtPosition(Player player, int[] position) 
+	private boolean setPlayerAtPosition(Player player, int[] position) 
 	{
-		board[position[0]][position[1]] = player;
+		if (
+				position[0] < board.length 
+				&& position[1] < board[position[0]].length
+				) 
+		{
+			board[position[0]][position[1]] = player;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -43,8 +64,7 @@ public class Board
 		if ( getPlayerAtPosition(position) == null) 
 		{
 			// GOOD: It is empty.
-			setPlayerAtPosition(player, position);
-			return true;
+			return setPlayerAtPosition(player, position);
 		} 
 		else 
 		{

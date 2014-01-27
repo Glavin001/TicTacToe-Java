@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class HumanPlayer extends Player implements ActionListener {
+public class GUIPlayer extends Player implements ActionListener {
 	
 	private JButton[][] buttons;
 	Engine currentEngine;
 	JLabel message;
 	
-	public HumanPlayer() 
+	public GUIPlayer() 
     {
     	createAndShowGUI();
     }
@@ -58,34 +58,38 @@ public class HumanPlayer extends Player implements ActionListener {
     
     private void addButtons(JPanel panel) {
     	buttons = new JButton[3][3];
-    	for (int k = 0; k < 3; k++) {
-	      for (int j = 0; j < 3; j++) {
-	         buttons[k][j] = new JButton("");
-	         buttons[k][j].addActionListener(this);
-	         buttons[k][j].setActionCommand("move");
-	         panel.add(buttons[k][j]);
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				buttons[x][y] = new JButton("");
+				buttons[x][y].addActionListener(this);
+				buttons[x][y].setActionCommand("move");
+				panel.add(buttons[x][y]);
     	   }
     	}
 	}
     
     private void disableButtons()
     {
-    	for (int k = 0; k < 3; k++) {
-  	      for (int j = 0; j < 3; j++) {
-  	    	  JButton button = buttons[k][j];
+    	//System.out.println("Disable Buttons - Start");
+    	for (int x = 0; x < 3; x++) {
+  	      for (int y = 0; y < 3; y++) {
+  	    	  JButton button = buttons[x][y];
   	    	  button.setEnabled(false);
   	      }
     	}
+    	//System.out.println("Disable Buttons - End");
     }
     
     private void enableButtons()
     {
-    	for (int k = 0; k < 3; k++) {
-  	      for (int j = 0; j < 3; j++) {
-  	    	  JButton button = buttons[k][j];
-  	    	  button.setEnabled(true);
+    	//System.out.println("Enable Buttons - Start");
+    	for (int x = 0; x < 3; x++) {
+    		for (int y = 0; y < 3; y++) {
+    			JButton button = buttons[x][y];
+    			button.setEnabled(true);
   	      }
     	}
+    	//System.out.println("Enable Buttons - End");
     }
 
     private void displayBoard(Board board, Engine engine) 
@@ -124,32 +128,49 @@ public class HumanPlayer extends Player implements ActionListener {
 		//System.out.println("ActionPerformed");
 		if (currentEngine == null)
 		{
-			System.out.println("Player has no Engine.");
-			//displayMessage("Player has no Engine.");
-			displayMessage("Please wait for your turn.");
+			//System.out.println("Player has no Engine.");
+			displayMessage("Player has no Engine.");
 			return;
 		}
 		String command = event.getActionCommand();
 		if (command == "move")
 		{
+			// Find which button was pressed.
+			// Iterate over the rows, x.
 			for (int x=0; x<3; x++)
 			{
+				// Iterate over the columns, y.
 				for (int y=0; y<3; y++) 
 				{
+					// Get current button with position.
 					int[] pos = {x,y};
 					JButton btn = buttons[x][y];
+					// Check if this was in fact the button pressed.
 					if (btn == event.getSource() )
 					{
+						// YES: This was the button pressed.
+						disableButtons(); // Temporarily disable the buttons from user interaction.
+						// Submit Move to Engine.
 						boolean validMove = currentEngine.move(this, pos);
+						// React to whether or not the move was valid.
 						if (validMove)
 						{
-							System.out.println("Valid move! ["+pos[0]+","+pos[1]+"]");
-							//displayMessage("Valid move.");
-							//displayMessage("Wait for your turn.");
-							disableButtons();
+							// GOOD: Move was valid.
+							// Check if game is over.
+							if (
+									currentEngine.getWinner() == null 
+									&& !currentEngine.getBoard().isFull() 
+									)
+							{
+								// Game is not over.
+								//System.out.println("Valid move! ["+pos[0]+","+pos[1]+"]");
+								displayMessage("Valid move.");
+								//displayMessage("Wait for your turn.");
+							}
 						} else 
 						{
-							System.out.println("Cannnot make that move! ["+pos[0]+","+pos[1]+"]");
+							// BAD: Move was invalid.
+							//System.out.println("Cannnot make that move! ["+pos[0]+","+pos[1]+"]");
 							displayMessage("Cannnot make that move.");
 						}
 						displayBoard(currentEngine.getBoard(), currentEngine);
@@ -160,11 +181,15 @@ public class HumanPlayer extends Player implements ActionListener {
 		}
 		else if (command == "restart")
 		{
+			// Attempt to Restart the game.
+			// What a sore loser...
 			try {
+				// Notify the Engine of the request.
 				currentEngine.startGame();
+				// Display the hopefully cleared board.
 				displayBoard(currentEngine.getBoard(), currentEngine);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				// Hopefully no errors occur in the process.
 				e.printStackTrace();
 			}
 		}
@@ -173,19 +198,19 @@ public class HumanPlayer extends Player implements ActionListener {
 	
 	@Override
 	public void makeMove(Board board, Engine engine) {
-		enableButtons();
-		System.out.println("=================");
-		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Make Move:");
+		//System.out.println("=================");
+		//System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Make Move:");
 		displayBoard(board, engine);
-		displayMessage("Make your move!");
+		displayMessage("Make your move! You are '"+engine.getLetterForPlayer(this)+"'s.");
 		currentEngine = engine;
+		enableButtons();
 	}
 	
 	@Override
 	public void lostGame(Board board, Engine engine) {
 		// 
-		System.out.println("=================");
-		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Lost Game");
+		//System.out.println("=================");
+		//System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Lost Game");
 		displayMessage("You lost.");
 		displayBoard(board, engine);
 	}
@@ -193,8 +218,8 @@ public class HumanPlayer extends Player implements ActionListener {
 	@Override
 	public void wonGame(Board board, Engine engine) {
 		// 
-		System.out.println("=================");
-		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Won Game");
+		//System.out.println("=================");
+		//System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Won Game");
 		displayMessage("You won!");
 		displayBoard(board, engine);
 	}
@@ -202,15 +227,16 @@ public class HumanPlayer extends Player implements ActionListener {
 	@Override
 	public void drawGame(Board board, Engine engine) {
 		// 
-		System.out.println("=================");
-		System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Draw Game");
+		//System.out.println("=================");
+		//System.out.println("Player '"+engine.getLetterForPlayer(this)+"' Draw Game");
 		displayMessage("Game was a Draw");
 		displayBoard(board, engine);
 	}
 	
 	@Override
 	public void message(String message) {
-		System.out.println(message);
+		//System.out.println(message);
+		displayMessage(message);
 	}
 
 

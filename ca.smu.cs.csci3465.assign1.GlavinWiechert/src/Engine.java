@@ -1,10 +1,24 @@
 import java.util.ArrayList;
 
+/**
+ * @author glavin
+ *
+ */
+/**
+ * @author glavin
+ *
+ */
+/**
+ * @author glavin
+ *
+ */
 public class Engine implements MoveObserver {
 	
 	/*
 	 * Variables
 	 */
+	final private char XCHAR = 'X';
+	final private char OCHAR = 'O';
 	private ArrayList<Player> players;
 	private Board board;
 	private Player currentPlayer;
@@ -61,22 +75,38 @@ public class Engine implements MoveObserver {
 	 */
 	public void endGame()
 	{
+		// Setting the `currentPlayer` to `null` will disable any further moves by Players.
 		currentPlayer = null;
 	}
 
 	
+	/**
+	 * Get the Engine's Board.
+	 * @return The Engine's Board.
+	 */
 	public Board getBoard() 
 	{
 		return board;
 	}
 	
+	
+	/**
+	 * Get the losing player, if there is one.
+	 * @return Losing player. `null` is there is currently not a loser.
+	 */
 	public Player getLoser() 
 	{
 		Player winner = getWinner();
+		// Assuming there are correctly only 2 players, the next player is logically the loser.
 		Player loser = getNextPlayer(winner);
 		return loser;
 	}
 	
+	
+	/**
+	 * Get the winning player, if there is one.
+	 * @return Winning player. `null` is there is currently not winner.
+	 */
 	public Player getWinner() 
 	{
 		// Check horizontal rows
@@ -182,11 +212,11 @@ public class Engine implements MoveObserver {
 		}
 		else if (idx == 0)
 		{
-			return 'x';
+			return XCHAR;
 		} 
 		else
 		{
-			return 'o';
+			return OCHAR;
 		}
 	}
 	
