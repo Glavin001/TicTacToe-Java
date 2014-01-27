@@ -6,6 +6,25 @@ TicTacToe-Java
 
 See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign1.html
 
+### For Grading 
+
+#### Two versions of Tic Tac Toe
+- [&#x2713;] One version that runs from the command line
+- [&#x2713;] One version that has a GUI
+
+#### Implement
+- [&#x2713;] Making a move
+- [&#x2713;] Switching between players
+- [&#x2713;] Detecting a win
+- [&#x2713;] Detecting a draw
+- [&#x2713;] Providing data for the interface to build the board
+- [&#x2713;] All interface-related functionality must be implemented in separate classes
+- [&#x2713;] The game will allow a person to play against a computer player. 
+- [&#x2713;] The computer player will play by making random, legal moves. 
+
+#### Bonus 
+- [&#x2717;] Ideally, the computer will be able to learn from losing scenarios and not make a move leading it to what it knows is a losing scenario.
+
 ## Installation / Building
 
 This project was created using [Eclipse](http://www.eclipse.org/), 
