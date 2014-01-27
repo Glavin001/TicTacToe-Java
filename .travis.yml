@@ -1,2 +1,4 @@
 language: java
 before_install: cd ca.smu.cs.csci3465.assign1.GlavinWiechert/
+script: ant
+
