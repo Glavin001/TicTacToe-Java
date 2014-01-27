@@ -6,6 +6,27 @@ TicTacToe-Java
 
 See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign1.html
 
+## Installation / Building
+
+This project was created using [Eclipse](http://www.eclipse.org/), 
+and so I recommend using it for building this project.
+
+Please see the [Releases](https://github.com/Glavin001/TicTacToe-Java/releases) for precompiled builds.
+
+## Features
+
+- Object-Oriented Design with an easily extendable `Player` class to add functionality to the game.
+- Currently supported `Player`s: `GUIPlayer` (Human), `CommandLinePlayer` (Human), `RandomPlayer` (Computer), `AIPlayer` (Computer).
+
+> **TODO**: Create `Player` that uses Sockets to communicate over the network. 
+This would require, of course, a local `SocketServerPlayer` on the same machine as the `Engine` and a `SocketClientPlayer` on any machine that can connect to `SocketServerPlayer` over the network.
+
+
+## Creating Your Own Player
+
+Extend the `Player` class and implement at least the required `Player` methods, such as from the  [EngineObserver](http://glavin001.github.io/TicTacToe-Java/doc/EngineObserver.html).
+
+
 ## Documentation
 See http://glavin001.github.io/TicTacToe-Java/doc/package-summary.html
 
