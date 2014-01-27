@@ -4,6 +4,9 @@ TicTacToe-Java
 
 > Tic Tac Toe in Java. For CSCI 3465 Object Oriented Programming course at SMU.
 
+### Download
+Please see the [Releases](https://github.com/Glavin001/TicTacToe-Java/releases) for precompiled builds.
+
 ### For Grading Assignment
 
 See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign1.html
@@ -42,18 +45,8 @@ See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign1.html
 > **TODO**: Create `Player` that uses Sockets to communicate over the network. 
 This would require, of course, a local `SocketServerPlayer` on the same machine as the `Engine` and a `SocketClientPlayer` on any machine that can connect to `SocketServerPlayer` over the network.
 
-
-## Creating Your Own Player
-
-Extend the `Player` class and implement at least the required `Player` methods, such as from the  [EngineObserver](http://glavin001.github.io/TicTacToe-Java/doc/EngineObserver.html).
-
 ## Documentation
 See http://glavin001.github.io/TicTacToe-Java/doc/package-summary.html
-
-## Known Issues
-- Game will crash if `CommandLinePlayer` has `Scanner` currently waiting for input when game is restarted.
-- `CommandLinePlayer` cannot restart game. This is because the `CommandLinePlayer`'s `Scanner` would then be waiting for input (`Press [Enter] to restart game`) and crash if another player restarted the game before input was received (See issue above).
-
 
 ## Installation / Building
 
@@ -62,7 +55,11 @@ and so I recommend using it for building this project.
 
 Please see the [Releases](https://github.com/Glavin001/TicTacToe-Java/releases) for precompiled builds.
 
-## Usage: Creating a Game
+## Creating Your Own Player
+
+Extend the `Player` class and implement at least the required `Player` methods, such as from the  [EngineObserver](http://glavin001.github.io/TicTacToe-Java/doc/EngineObserver.html).
+
+## Creating a Game
 
 Edit the `App` class, inside the `main` method.
 
@@ -98,3 +95,8 @@ engine.addPlayer(computer1); // Second Player, 'O'
 // Start the game!
 engine.startGame();
 ```
+
+## Known Issues
+- Game will crash if `CommandLinePlayer` has `Scanner` currently waiting for input when game is restarted.
+- `CommandLinePlayer` cannot restart game. This is because the `CommandLinePlayer`'s `Scanner` would then be waiting for input (`Press [Enter] to restart game` prompt may wait indefinitely) and crash if another player restarted the game before input was received (See issue above). To restart a game with `CommandLinePlayer` please restart the build in Eclipse.
+
