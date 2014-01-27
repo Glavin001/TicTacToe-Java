@@ -25,7 +25,12 @@ See assignment at http://cs.smu.ca/~jdeveaux/csci/3465/2014/assign1.html
 #### Bonus 
 - [&#x2717;] Ideally, the computer will be able to learn from losing scenarios and not make a move leading it to what it knows is a losing scenario.
 
-> The above suggested technique for building an AI is too unsatisfactory and unsettlingly inefficient.
+> The above suggested technique for building an AI is unsatisfactory and unsettlingly inefficient 
+> -- requiring and storing a history of games.
+> The true ideal is an algorithm that would deduce it's next move position through proven techniques, 
+> with no need for prior winning or losing scenarios to be stored.
+> A Java implementation can be found http://algojava.blogspot.ca/2008/12/how-to-create-tic-tac-toe-ai-java.html
+> and such techniques are described in prose at http://www.wikihow.com/Win-at-Tic-Tac-Toe
 
 -----
 
